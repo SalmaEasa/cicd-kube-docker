@@ -83,11 +83,14 @@ pipeline {
 
         stage("Upload Image"){
             steps{
-                script{
-                    docker.withDockerRegistry('',registryCredentials){
-                        dockerImage.push("V$BUILD_NUMBER")
-                        dockerImage.push("latest")
+                script{    
+                    withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'DOCKER_HUB_PASSWORD', usernameVariable: 'DOCKER_HUB_USER')]) {
+                                        sh "echo \$DOCKER_HUB_PASSWORD | docker login -u \$DOCKER_HUB_USER --password-stdin"
+                                        dockerImage.push("V$BUILD_NUMBER")
+                                        dockerImage.push("latest")
+                    
                     }
+
                 }
             }
         }
