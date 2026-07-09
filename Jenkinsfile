@@ -106,9 +106,9 @@ pipeline {
                 label 'KOPS'
             }
                 steps{
-                    sh "helm upgrade --install --force vprofile-stack helm/vprofilecharts --set appimage=${registry}:V${BUILD_NUMBER} --namespace prod"
-                }
+                        sh "KUBECONFIG=/root/.kube/config helm upgrade --install --force vprofile-stack helm/vprofilecharts --set appimage=${registry}:V${BUILD_NUMBER} --namespace prod"                }
         }
+
 
 
     }
